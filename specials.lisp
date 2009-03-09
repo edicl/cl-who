@@ -1,7 +1,7 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package:CL-WHO; Base: 10 -*-
-;;; $Header: /usr/local/cvsrep/cl-who/specials.lisp,v 1.2 2007/08/24 08:01:37 edi Exp $
+;;; $Header: /usr/local/cvsrep/cl-who/specials.lisp,v 1.6 2009/01/26 11:10:49 edi Exp $
 
-;;; Copyright (c) 2003-2007, Dr. Edmund Weitz. All rights reserved.
+;;; Copyright (c) 2003-2009, Dr. Edmund Weitz. All rights reserved.
 
 ;;; Redistribution and use in source and binary forms, with or without
 ;;; modification, are permitted provided that the following conditions
@@ -40,13 +40,13 @@
   "This is the first line that'll be printed if the :PROLOGUE keyword
 argument is T")
 
-(defparameter *escape-char-p*
-  #'(lambda (char)
-      (or (find char "<>&'\"")
-          (> (char-code char) 127)))
+(defvar *escape-char-p*
+  (lambda (char)
+    (or (find char "<>&'\"")
+        (> (char-code char) 127)))
   "Used by ESCAPE-STRING to test whether a character should be escaped.")
 
-(defparameter *indent* nil
+(defvar *indent* nil
   "Whether to insert line breaks and indent. Also controls amount of
 indentation dynamically.")
 
@@ -58,13 +58,13 @@ indentation dynamically.")
 not be automatically converted to lowercase.  This is useful when one
 needs to output case sensitive XML.")
 
-(defparameter *attribute-quote-char* #\'
+(defvar *attribute-quote-char* #\'
   "Quote character for attributes.")
 
-(defparameter *empty-tag-end* " />"
+(defvar *empty-tag-end* " />"
   "End of an empty tag.  Default is XML style.")
 
-(defparameter *html-empty-tags*
+(defvar *html-empty-tags*
   '(:area
     :atop
     :audioscope
@@ -96,7 +96,7 @@ needs to output case sensitive XML.")
   "The list of HTML tags that should be output as empty tags.
 See *HTML-EMPTY-TAG-AWARE-P*.")
 
-(defvar *html-empty-tag-aware-p* T
+(defvar *html-empty-tag-aware-p* t
   "Set this to NIL to if you want to use CL-WHO as a strict XML
 generator.  Otherwise, CL-WHO will only write empty tags listed
 in *HTML-EMPTY-TAGS* as <tag/> \(XHTML mode) or <tag> \(SGML

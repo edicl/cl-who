@@ -1,7 +1,7 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CL-USER; Base: 10 -*-
-;;; $Header: /usr/local/cvsrep/cl-who/cl-who.asd,v 1.18 2007/08/24 08:01:37 edi Exp $
+;;; $Header: /usr/local/cvsrep/cl-who/cl-who.asd,v 1.24 2009/01/26 11:10:49 edi Exp $
 
-;;; Copyright (c) 2003-2007, Dr. Edmund Weitz.  All rights reserved.
+;;; Copyright (c) 2003-2009, Dr. Edmund Weitz.  All rights reserved.
 
 ;;; Redistribution and use in source and binary forms, with or without
 ;;; modification, are permitted provided that the following conditions
@@ -28,8 +28,20 @@
 ;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 (asdf:defsystem :cl-who
-  :version "0.11.0"
+  :version "0.11.1"
   :serial t
   :components ((:file "packages")
                (:file "specials")
+               (:file "util")
                (:file "who")))
+
+(defsystem :cl-who-test
+  :depends-on (:cl-who :flexi-streams)
+  :components ((:module "test"
+                        :serial t
+                        :components ((:file "packages")
+                                     (:file "tests")))))
+
+(defmethod perform ((o test-op) (c (eql (find-system :cl-who))))
+  (operate 'load-op :cl-who-test)
+  (funcall (intern (symbol-name :run-all-tests) (find-package :cl-who-test))))

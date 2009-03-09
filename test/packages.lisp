@@ -1,7 +1,7 @@
 ;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CL-USER; Base: 10 -*-
-;;; $Header: /usr/local/cvsrep/cl-who/packages.lisp,v 1.21 2009/01/26 11:10:49 edi Exp $
+;;; $Header: /usr/local/cvsrep/cl-who/test/packages.lisp,v 1.3 2009/01/26 11:10:52 edi Exp $
 
-;;; Copyright (c) 2003-2009, Dr. Edmund Weitz. All rights reserved.
+;;; Copyright (c) 2008-2009, Dr. Edmund Weitz. All rights reserved.
 
 ;;; Redistribution and use in source and binary forms, with or without
 ;;; modification, are permitted provided that the following conditions
@@ -29,35 +29,6 @@
 
 (in-package :cl-user)
 
-(defpackage :cl-who
-  (:use :cl)
-  (:nicknames :who)
-  #+:sbcl (:shadow :defconstant)
-  (:export :*attribute-quote-char*
-           :*escape-char-p*
-           :*prologue*
-           :*downcase-tokens-p*
-           :*html-empty-tags*
-           :*html-empty-tag-aware-p*
-           :conc
-           :convert-attributes
-           :convert-tag-to-string-list
-           :esc
-           :escape-char
-           :escape-char-all
-           :escape-char-iso-8859-1
-           :escape-char-minimal
-           :escape-char-minimal-plus-quotes
-           :escape-string
-           :escape-string-all
-           :escape-string-iso-8859-1
-           :escape-string-minimal
-           :escape-string-minimal-plus-quotes
-           :fmt
-           :htm
-           :html-mode
-           :str
-           :with-html-output
-           :with-html-output-to-string))
-
-(pushnew :cl-who *features*)
+(defpackage :cl-who-test
+  (:use :cl :cl-who)
+  (:export :run-all-tests))
