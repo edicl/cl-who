@@ -1,0 +1,91 @@
+Version 0.11.0
+2007-08-24
+Replaces *DOWNCASE-TAGS-P* with *DOWNCASE-TOKENS-P* (thanks to Osei Poku)
+
+Version 0.10.0
+2007-07-25
+Added ESCAPE-CHAR-... functions (based on a patch by Volkan Yazici)
+
+Version 0.9.1
+2007-05-28
+Fixed bug in CONVERT-TAG-TO-STRING-LIST (thanks to Simon Cusack)
+
+Version 0.9.0
+2007-05-08
+Changed behaviour of STR and ESC when "argument" is NIL (patch by Mac Chan)
+
+Version 0.8.1
+2007-04-27
+Removed antiquated installation instructions and files (thanks to a hint by Mac Chan)
+
+Version 0.8.0
+2007-04-27
+Added *HTML-EMPTY-TAG-AWARE-P* (patch by Mac Chan)
+A bit of refactoring
+
+Version 0.7.1
+2007-04-05
+Made *HTML-MODE* a compile-time flag (patch by Mac Chan)
+
+Version 0.7.0
+2007-03-23
+Added *DOWNCASE-TAGS-P* (patch by Mac Chan)
+	
+Version 0.6.3
+2006-12-22
+Fixed example for CONVERT-TAG-TO-STRING-LIST (thanks to Daniel Gackle)
+	
+Version 0.6.2
+2006-10-10
+Reintroduced ESCAPE-STRING-ISO-8859-1 for backwards compatibility
+	
+Version 0.6.1
+2006-07-27
+EVAL CONSTANTP forms in attribute position (caught by Erik Enge)
+Added WHO nickname to CL-WHO package	
+
+Version 0.6.0
+2005-08-02
+Introduced *ATTRIBUTE-QUOTE-CHAR* and HTML-MODE and adapted code accordingly (patch by Stefan Scholl)
+
+Version 0.5.0
+2005-03-01
+Enable customization via CONVERT-TAG-TO-STRING-LIST
+
+Version 0.4.4
+2005-01-22
+Explicitely provide elementy type for +SPACES+ to prevent problems with LW (thanks to Bob Hutchinson)
+
+Version 0.4.3
+2004-09-13
+ESCAPE-STRING-ISO-8859 wasn't exported
+
+Version 0.4.2
+2004-09-08
+Fixed bug in docs (caught by Peter Seibel)
+Added hyperdoc support
+
+Version 0.4.1
+2004-04-15
+Added :CL-WHO to *FEATURES* (for TBNL)
+
+Version 0.4.0
+2003-12-03
+Allow for optional LHTML syntax (patch by Kevin Rosenberg)
+
+Version 0.3.0
+2003-08-02
+Changed behaviour of attributes (incompatible with 0.2.0 syntax!) due to a question by Jörg-Cyril Höhle
+Changed &apos; back to &#039; because of IE
+
+Version 0.2.0
+2003-07-27
+Changed default for :PROLOGUE (I was convinced by Rob Warnock and Eduardo Muñoz)
+
+Version 0.1.1
+2003-07-20
+Typo in WITH-OUTPUT-TO-STRING
+
+Version 0.1.0
+2003-07-17
+Initial release
