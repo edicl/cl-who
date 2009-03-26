@@ -5,6 +5,7 @@ Added test suite
 	todo: repla s-h-texp with walk in docs
 Removed deprecated ESCAPE-STRING-ISO-8859 function
 Removed SHOW-HTML-EXPANSION
+Bugfixes (thanks to Slawek Zak)	
 
 Version 0.11.1
 2008-03-28
