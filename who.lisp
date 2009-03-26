@@ -174,7 +174,7 @@ can use EQL specializers on the first argument."
   "Transforms an HTML tree into an intermediate format - mainly a
 flattened list of strings. Utility function used by TREE-TO-COMMANDS-AUX."
   (loop for element in tree
-        when (or (keywordp element)
+        if (or (keywordp element)
                  (and (listp element)
                       (keywordp (first element)))
                  (and (listp element)
@@ -182,8 +182,11 @@ flattened list of strings. Utility function used by TREE-TO-COMMANDS-AUX."
                       (keywordp (first (first element)))))
         ;; the syntax for a tag - process it
         nconc (process-tag element #'tree-to-template)
+        ;; list - insert as sexp
+        else if (consp element)
+        collect `(let ((*indent* ,*indent*)) ,element)
+        ;; something else - insert verbatim     
         else
-        ;; something else - insert verbatim
         collect element))
 
 (defun string-list-to-string (string-list)
