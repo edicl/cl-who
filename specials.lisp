@@ -51,7 +51,7 @@ argument is T")
 indentation dynamically.")
 
 (defvar *html-mode* :xml
-  ":SGML for \(SGML-)HTML, :XML \(default) for XHTML.")
+  ":SGML for \(SGML-)HTML, :XML \(default) for XHTML, :HTML5 for HTML5.")
 
 (defvar *downcase-tokens-p* t
   "If NIL, a keyword symbol representing a tag or attribute name will
@@ -73,6 +73,8 @@ needs to output case sensitive XML.")
     :br
     :choose
     :col
+    :command
+    :embed
     :frame
     :hr
     :img
@@ -89,9 +91,11 @@ needs to output case sensitive XML.")
     :param
     :range   
     :right
+    :source
     :spacer
     :spot
     :tab
+    :track
     :wbr)
   "The list of HTML tags that should be output as empty tags.
 See *HTML-EMPTY-TAG-AWARE-P*.")
@@ -100,7 +104,7 @@ See *HTML-EMPTY-TAG-AWARE-P*.")
   "Set this to NIL to if you want to use CL-WHO as a strict XML
 generator.  Otherwise, CL-WHO will only write empty tags listed
 in *HTML-EMPTY-TAGS* as <tag/> \(XHTML mode) or <tag> \(SGML
-mode).  For all other tags, it will always generate
+mode and HTML5 mode).  For all other tags, it will always generate
 <tag></tag>.")
 
 (defconstant +newline+ (make-string 1 :initial-element #\Newline)

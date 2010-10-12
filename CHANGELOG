@@ -1,11 +1,12 @@
 Version 1.0.0
-2009-0x-xx
+2010-0x-xx
 Refactored internals and made STR etc. local macros
 Added test suite
 	todo: repla s-h-texp with walk in docs
 Removed deprecated ESCAPE-STRING-ISO-8859 function
 Removed SHOW-HTML-EXPANSION
-Bugfixes (thanks to Slawek Zak)	
+Bugfixes (thanks to Slawek Zak)
+Added support for HTML5 (Chaitanya Gupta)
 
 Version 0.11.1
 2008-03-28

@@ -61,7 +61,7 @@ forms for constant parts of the output interspersed with arbitrary
 code inserted by the user of the macro. CL-WHO will make sure that
 there aren't two adjacent <code>WRITE-STRING</code> forms with
 constant strings. CL-WHO's output is
-either XHTML (default) or 'plain' (SGML) HTML &mdash; depending on
+either XHTML (default), 'plain' (SGML) HTML or HTML5 (using HTML syntax) &mdash; depending on
 what you've set <a href="#html-mode"><code>HTML-MODE</code></a> to.
 <p>
 CL-WHO is intended to be portable and should work with all
@@ -541,7 +541,7 @@ This is the prologue string which will be printed if the <code><i>prologue</i></
 <blockquote><br>
 Set this to <code>NIL</code> to if you want to use CL-WHO as a strict XML
 generator.  Otherwise, CL-WHO will only write empty tags listed in
-<a href="#*html-empty-tags*"><code>*HTML-EMPTY-TAGS*</code></a> as <code>&lt;tag/&gt;</code> (XHTML mode) or <code>&lt;tag&gt;</code> (SGML mode). For
+<a href="#*html-empty-tags*"><code>*HTML-EMPTY-TAGS*</code></a> as <code>&lt;tag/&gt;</code> (XHTML mode) or <code>&lt;tag&gt;</code> (SGML mode or HTML mode). For
 all other tags, it will always generate <code>&lt;tag&gt;&lt;/tag&gt;</code>. The initial value of this variable is <code>T</code>.
 </blockquote>
 
@@ -553,9 +553,9 @@ The list of HTML tags that should be output as empty tags.  See
 <a href="#*html-empty-tag-aware-p*"><code>*HTML-EMPTY-TAG-AWARE-P*</code></a>.
 The initial value is the list
 <pre>
-(:area :atop :audioscope :base :basefont :br :choose :col :frame
- :hr :img :input :isindex :keygen :left :limittext :link :meta
- :nextid :of :over :param :range :right :spacer :spot :tab :wbr)
+(:area :atop :audioscope :base :basefont :br :choose :col :command :embed
+ :frame :hr :img :input :isindex :keygen :left :limittext :link :meta :nextid
+ :of :over :param :range :right :source :spacer :spot :tab :track :wbr)
 </pre>
 </blockquote>
 
@@ -585,11 +585,14 @@ These are just symbols with no bindings associated with them. The only reason th
 <br><a class=none name="html-mode"><b>html-mode</b></a> <i>=> mode</i>
 <br><tt>(setf (</tt><b>html-mode</b>) <i>mode</i><tt>)</tt>
 <blockquote><br>
-The function <code>HTML-MODE</code> returns the current mode for generating HTML. The default is <code>:XML</code> for XHTML. You can change this by setting it with <code>(SETF&nbsp;(HTML-MODE)&nbsp;:SGML)</code> to pre-XML HTML mode.
+The function <code>HTML-MODE</code> returns the current mode for generating HTML. The default is <code>:XML</code> for XHTML. You can change this by setting it with <code>(SETF&nbsp;(HTML-MODE)&nbsp;:SGML)</code> to pre-XML HTML mode or <code>(SETF&nbsp;(HTML-MODE)&nbsp;:HTML5)</code> to HTML5 mode (using HTML syntax).
 <p>
 Setting it to SGML HTML sets the <a href="#*prologue*"><code>*prologue*</code></a> to the doctype string for HTML 4.01 transitional:
 <pre>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</pre>
 Code generation in SGML HTML is slightly different from XHTML - there's no need to end empty elements with <code>/&gt;</code> and empty attributes are allowed.
+<p>
+Setting it to HTML5 sets the <a href="#*prologue*"><code>*prologue*</code></a> to the following doctype string:
+<pre>&lt;!DOCTYPE html&gt;</pre>
 </blockquote>
 
 <p><br>[Function]

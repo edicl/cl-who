@@ -30,13 +30,13 @@
 (in-package :cl-who)
 
 (defun html-mode ()
-  "Returns the current HTML mode. :SGML for \(SGML-)HTML and
-:XML for XHTML."
+  "Returns the current HTML mode. :SGML for \(SGML-)HTML, :XML for
+XHTML and :HTML5 for HTML5 (HTML syntax)."
   *html-mode*)
 
 (defun (setf html-mode) (mode)
   "Sets the output mode to XHTML or \(SGML-)HTML.  MODE can be
-:SGML for HTML or :XML for XHTML."
+:SGML for HTML, :XML for XHTML or :HTML5 for HTML5 (HTML syntax)."
   (ecase mode
     ((:sgml)
      (setf *html-mode* :sgml
@@ -45,7 +45,11 @@
     ((:xml)
      (setf *html-mode* :xml
            *empty-tag-end* " />"
-           *prologue* "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"))))
+           *prologue* "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"))
+    ((:html5)
+     (setf *html-mode* :html5
+           *empty-tag-end* ">"
+           *prologue* "<!DOCTYPE html>"))))
 
 (defun process-tag (sexp body-fn)
   (declare (optimize speed space))
