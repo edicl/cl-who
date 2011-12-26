@@ -28,6 +28,7 @@
 ;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 (asdf:defsystem :cl-who
+  :description "(X)HTML generation macros"
   :version "0.11.1"
   :serial t
   :components ((:file "packages")
