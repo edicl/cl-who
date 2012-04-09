@@ -58,7 +58,7 @@
           :of
           :over
           :param
-          :range   
+          :range
           :right
           :spacer
           :spot
