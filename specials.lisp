@@ -89,7 +89,7 @@ needs to output case sensitive XML.")
     :of
     :over
     :param
-    :range   
+    :range
     :right
     :source
     :spacer
