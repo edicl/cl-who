@@ -33,6 +33,7 @@
   (:use :cl)
   (:nicknames :who)
   #+:sbcl (:shadow :defconstant)
+  #+:sb-package-locks (:lock t)
   (:export :*attribute-quote-char*
            :*escape-char-p*
            :*prologue*
