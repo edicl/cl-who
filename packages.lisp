@@ -37,6 +37,7 @@
            :*escape-char-p*
            :*prologue*
            :*downcase-tokens-p*
+           :*html-no-indent-tags*
            :*html-empty-tags*
            :*html-empty-tag-aware-p*
            :conc
