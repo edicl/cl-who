@@ -134,7 +134,15 @@ tests succeeded."
               (let ((form (or (read stream nil) (done))))
                 (when verbose
                   (format t "~&~S" form))
-                (cond ((eval form) nil)
+                (cond ((and (consp form) (eq 'string= (car form))
+                            (stringp (third form)))
+                       (destructuring-bind (gen expected) (cdr form)
+                         (let ((actual (eval gen)))
+                           (unless (string= actual expected)
+                             (list (format nil "~@<~:@_    ~2:I~S~:@_Expected: ~S~
+                                                                 ~@:_  Actual: ~S~:>"
+                                           form expected actual))))))
+                      ((eval form) nil)
                       (t (list (format nil "~S returned NIL" form)))))))
         (setf (html-mode) html-mode)))))
 
