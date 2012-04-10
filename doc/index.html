@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html> 
+<html>
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -9,16 +9,16 @@
   h3, h4 { text-decoration: underline; }
   a { text-decoration: none; padding: 1px 2px 1px 2px; }
   a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
-  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; }
   a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
   a.none { text-decoration: none; padding: 0; }
-  a.none:visited { text-decoration: none; padding: 0; } 
-  a.none:hover { text-decoration: none; border: none; padding: 0; } 
-  a.none:focus { text-decoration: none; border: none; padding: 0; } 
-  a.noborder { text-decoration: none; padding: 0; } 
-  a.noborder:visited { text-decoration: none; padding: 0; } 
-  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
-  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  a.none:visited { text-decoration: none; padding: 0; }
+  a.none:hover { text-decoration: none; border: none; padding: 0; }
+  a.none:focus { text-decoration: none; border: none; padding: 0; }
+  a.noborder { text-decoration: none; padding: 0; }
+  a.noborder:visited { text-decoration: none; padding: 0; }
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; }
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }
   pre.none { padding:5px; background-color:#ffffff }
   </style>
 </head>
@@ -315,7 +315,7 @@ string to the stream the user provides.
 
   <li>Each list beginning with a <a
 href="http://www.lispworks.com/reference/HyperSpec/Body/t_kwd.htm"><em>keyword</em></a>
-is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase-tokens-p*">downcased</a>) name by the following rules: 
+is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase-tokens-p*">downcased</a>) name by the following rules:
 
   <ul>
 
@@ -337,7 +337,7 @@ is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase
   <table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(:td :nowrap t) <font color="red">=&gt;</font> (write-string &quot;&lt;td nowrap='nowrap' /&gt;&quot; s)</pre></td></tr></table>
 
   With <a href="#html-mode"><code>HTML-MODE</code></a> set to <code>:SGML</code>:
-  
+
   <table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(:td :nowrap t) <font color="red">=&gt;</font> (write-string &quot;&lt;td nowrap&gt;&quot; s)</pre></td></tr></table>
 
          <li>If it is <code>NIL</code> the attribute will be left out completely.
@@ -415,7 +415,7 @@ CHECKBOX
       <li>Forms that look like <code>(<b>str</b> <i>form</i>)</code> will be substituted with
 	  <span style="white-space: nowrap"><code>(let ((result <i>form</i>)) (when result (princ result s)))</code></span>.
 
-<table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(loop for i below 10 do (str i)) <font color="red">=&gt;</font> 
+<table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(loop for i below 10 do (str i)) <font color="red">=&gt;</font>
 (loop for i below 10 do
    (let ((#:result i))
      (when #:result (princ #:result *standard-output*))))</pre></td></tr></table>
@@ -717,17 +717,17 @@ Here are some simple examples:
 <pre>
 * (defmethod convert-tag-to-string-list ((tag (eql :red)) attr-list body body-fn)
     (declare (ignore attr-list))
-    (nconc (cons "&lt;font color='red'&gt;" (funcall body-fn body)) (list "&lt;/font&gt;"))) 
-; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN): 
-; Compiling Top-Level Form: 
+    (nconc (cons "&lt;font color='red'&gt;" (funcall body-fn body)) (list "&lt;/font&gt;")))
+; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN):
+; Compiling Top-Level Form:
 
 #&lt;STANDARD-METHOD CONVERT-TAG-TO-STRING-LIST ((EQL :RED) T T T) {582B268D}&gt;
 * (with-html-output (*standard-output*)
-    (:red (:b "Bold and red")) 
+    (:red (:b "Bold and red"))
     (values))
 &lt;font color='red'&gt;&lt;b&gt;Bold and red&lt;/b&gt;&lt;/font&gt;
 * (show-html-expansion (s)
-    (:red :style "spiffy" (if (foo) (htm "Attributes are ignored")))) 
+    (:red :style "spiffy" (if (foo) (htm "Attributes are ignored"))))
 
 (LET ((S S))
   (PROGN
@@ -746,24 +746,24 @@ Here are some simple examples:
                                     collect "&lt;td&gt;"
                                     when (constantp col)
                                       collect (format nil "~A" col)
-                                    else 
+                                    else
                                       collect col
                                     collect "&lt;/td&gt;")
                         collect "&lt;/tr&gt;")
                   (list "&lt;/table&gt;")))
-          (t 
+          (t
             <font color=orange>;; you could as well invoke CALL-NEXT-METHOD here, of course</font>
             (nconc (cons "&lt;table "
                          (<a class=noborder href="#convert-attributes">convert-attributes</a> attr-list))
                    (list "&gt;")
                    (funcall body-fn body)
                    (list "&lt;/table&gt;")))))
-; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN): 
-; Compiling Top-Level Form: 
+; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN):
+; Compiling Top-Level Form:
 
 #&lt;STANDARD-METHOD CONVERT-TAG-TO-STRING-LIST ((EQL :TABLE) T T T) {58AFB7CD}&gt;
 * (with-html-output (*standard-output*)
-    (:table :border 0 (:tr (:td "1") (:td "2")) (:tr (:td "3") (:td "4")))) 
+    (:table :border 0 (:tr (:td "1") (:td "2")) (:tr (:td "3") (:td "4"))))
 &lt;table  border='0'&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 "&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
 * (show-html-expansion (s)
