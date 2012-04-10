@@ -114,7 +114,7 @@ forms."
             ;; do the same things as above but at runtime
             nconc (list `(let ((,=var= ,val))
                           (cond ((null ,=var=))
-                                ((eq ,=var= t) 
+                                ((eq ,=var= t)
                                  ,(case *html-mode*
                                     (:sgml
                                      `(fmt " ~A" attr))
@@ -189,7 +189,7 @@ flattened list of strings. Utility function used by TREE-TO-COMMANDS-AUX."
         ;; list - insert as sexp
         else if (consp element)
         collect `(let ((*indent* ,*indent*)) ,element)
-        ;; something else - insert verbatim     
+        ;; something else - insert verbatim
         else
         collect element))
 
@@ -276,7 +276,7 @@ supplied."
      (macrolet ((htm (&body body)
                   `(with-html-output (,',var nil :prologue nil :indent ,,indent)
                      ,@body))
-                (fmt (&rest args)                        
+                (fmt (&rest args)
                   `(format ,',var ,@args))
                 (esc (thing)
                   (with-unique-names (result)
