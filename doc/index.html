@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html> 
+<html>
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -9,16 +9,16 @@
   h3, h4 { text-decoration: underline; }
   a { text-decoration: none; padding: 1px 2px 1px 2px; }
   a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
-  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; }
   a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
   a.none { text-decoration: none; padding: 0; }
-  a.none:visited { text-decoration: none; padding: 0; } 
-  a.none:hover { text-decoration: none; border: none; padding: 0; } 
-  a.none:focus { text-decoration: none; border: none; padding: 0; } 
-  a.noborder { text-decoration: none; padding: 0; } 
-  a.noborder:visited { text-decoration: none; padding: 0; } 
-  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
-  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  a.none:visited { text-decoration: none; padding: 0; }
+  a.none:hover { text-decoration: none; border: none; padding: 0; }
+  a.none:focus { text-decoration: none; border: none; padding: 0; }
+  a.noborder { text-decoration: none; padding: 0; }
+  a.noborder:visited { text-decoration: none; padding: 0; }
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; }
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }
   pre.none { padding:5px; background-color:#ffffff }
   </style>
 </head>
@@ -90,10 +90,11 @@ CL-WHO is for example used by <a href="http://clutu.com/">clutu</a> and <a href=
     <li><a href="#with-html-output"><code>with-html-output</code></a>
     <li><a href="#with-html-output-to-string"><code>with-html-output-to-string</code></a>
     <li><a href="#*attribute-quote-char*"><code>*attribute-quote-char*</code></a>
-    <li><a href="#*prologue*"><code>*prologue*</code></a>
+    <li><a href="#*downcase-tokens-p*"><code>*downcase-tokens-p*</code></a>
     <li><a href="#*html-empty-tag-aware-p*"><code>*html-empty-tag-aware-p*</code></a>
     <li><a href="#*html-empty-tags*"><code>*html-empty-tags*</code></a>
-    <li><a href="#*downcase-tokens-p*"><code>*downcase-tokens-p*</code></a>
+    <li><a href="#*html-no-indent-tags*"><code>*html-no-indent-tags*</code></a>
+    <li><a href="#*prologue*"><code>*prologue*</code></a>
     <li><a href="#esc"><code>esc</code></a>
     <li><a href="#fmt"><code>fmt</code></a>
     <li><a href="#htm"><code>htm</code></a>
@@ -315,7 +316,7 @@ string to the stream the user provides.
 
   <li>Each list beginning with a <a
 href="http://www.lispworks.com/reference/HyperSpec/Body/t_kwd.htm"><em>keyword</em></a>
-is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase-tokens-p*">downcased</a>) name by the following rules: 
+is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase-tokens-p*">downcased</a>) name by the following rules:
 
   <ul>
 
@@ -337,7 +338,7 @@ is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase
   <table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(:td :nowrap t) <font color="red">=&gt;</font> (write-string &quot;&lt;td nowrap='nowrap' /&gt;&quot; s)</pre></td></tr></table>
 
   With <a href="#html-mode"><code>HTML-MODE</code></a> set to <code>:SGML</code>:
-  
+
   <table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(:td :nowrap t) <font color="red">=&gt;</font> (write-string &quot;&lt;td nowrap&gt;&quot; s)</pre></td></tr></table>
 
          <li>If it is <code>NIL</code> the attribute will be left out completely.
@@ -415,7 +416,7 @@ CHECKBOX
       <li>Forms that look like <code>(<b>str</b> <i>form</i>)</code> will be substituted with
 	  <span style="white-space: nowrap"><code>(let ((result <i>form</i>)) (when result (princ result s)))</code></span>.
 
-<table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(loop for i below 10 do (str i)) <font color="red">=&gt;</font> 
+<table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(loop for i below 10 do (str i)) <font color="red">=&gt;</font>
 (loop for i below 10 do
    (let ((#:result i))
      (when #:result (princ #:result *standard-output*))))</pre></td></tr></table>
@@ -460,21 +461,26 @@ time. <code><i>prologue</i></code> should be a string
 is guaranteed to be the first thing sent to the stream from within the
 body of this macro. If <code><i>prologue</i></code> is <code>T</code>
 the prologue string is the value
-of <a href="#*prologue*"><code>*PROLOGUE*</code></a>. CL-WHO will
-usually try not to insert any unnecessary whitespace in order to save
-bandwidth. However, if <code><i>indent</i></code> is <em>true</em>
-line breaks will be inserted and nested tags will be indented
-properly. The value of <code><i>indent</i></code> - if it is an
-integer - will be taken as the initial indentation. If it is not an
-integer it is assumed to mean <code>0</code>. (But note that
-indentation might change the semantics of the generated HTML.  This is
-for example the case for the <code>PRE</code>
-and <code>TEXTAREA</code> tags, and in certain situations additional
-whitespace might also change the layout of tables.)
+of <a href="#*prologue*"><code>*PROLOGUE*</code></a>.
+<p>
+CL-WHO will usually try not to insert any unnecessary whitespace in
+order to save bandwidth. However, if <code><i>indent</i></code>
+is <em>true</em> line breaks will be inserted and nested tags will be
+indented properly. The value of <code><i>indent</i></code> - if it is
+an integer - will be taken as the initial indentation. If it is not an
+integer it is assumed to mean <code>0</code>. Value
+of <a href="#*html-no-indent-tags*"><code>*HTML-NO-INDENT-TAGS*</code></a>
+controls which tag-contents are excempt from indentation: by default
+contents of <code>PRE</code> and <code>TEXTAREA</code> tags are not
+indented to avoid spurious layout changes. (Note: in certain
+situations additional whitespace may change the layout of tables.)
+<p>
 The <code><i>results</i></code> are the values returned by
 the <code><i>forms</i></code>.
 <p>
-Note that the keyword arguments <code><i>prologue</i></code> and <code><i>indent</i></code> are used at macro expansion time.
+Note that the keyword arguments <code><i>prologue</i></code>
+and <code><i>indent</i></code>, and the associated variables are
+used <em>at macro expansion time</em>.
 
 <pre>
 * (with-html-output (*standard-output* nil :prologue t)
@@ -527,12 +533,12 @@ This character is used as the quote character when building attributes. Defaults
 </blockquote>
 
 <p><br>[Special variable]
-<br><a class=none name="*prologue*"><b>*prologue*</b></a>
+<br><a class=none name="*downcase-tokens-p*"><b>*downcase-tokens-p*</b></a>
 
 <blockquote><br>
-This is the prologue string which will be printed if the <code><i>prologue</i></code> keyword argument to <a href="#with-html-output"><code>WITH-HTML-OUTPUT</code></a> is <code>T</code>. Gets changed when you set <a href="#html-mode"><code>HTML-MODE</code></a>. Its initial value is
-
-<pre>&quot;&lt;!DOCTYPE html PUBLIC \&quot;-//W3C//DTD XHTML 1.0 Strict//EN\&quot; \&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\&quot;&gt;&quot;</pre>
+If the value of this variable is <code>NIL</code>, keyword symbols representing a tag or attribute name will not be
+automatically converted to lowercase.  This is useful when one needs to
+output case sensitive XML.  The default is <code>T</code>.
 </blockquote>
 
 <p><br>[Special variable]
@@ -560,12 +566,21 @@ The initial value is the list
 </blockquote>
 
 <p><br>[Special variable]
-<br><a class=none name="*downcase-tokens-p*"><b>*downcase-tokens-p*</b></a>
+<br><a class=none name="*html-no-indent-tags*"><b>*html-no-indent-tags*</b></a>
 
 <blockquote><br>
-If the value of this variable is <code>NIL</code>, keyword symbols representing a tag or attribute name will not be
-automatically converted to lowercase.  This is useful when one needs to
-output case sensitive XML.  The default is <code>T</code>.
+The list of HTML tags that should disable indentation inside them even
+when indentation is requested. The initial value is a list containing
+only <code>:pre</code> and <code>:texarea</code>.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*prologue*"><b>*prologue*</b></a>
+
+<blockquote><br>
+This is the prologue string which will be printed if the <code><i>prologue</i></code> keyword argument to <a href="#with-html-output"><code>WITH-HTML-OUTPUT</code></a> is <code>T</code>. Gets changed when you set <a href="#html-mode"><code>HTML-MODE</code></a>. Its initial value is
+
+<pre>&quot;&lt;!DOCTYPE html PUBLIC \&quot;-//W3C//DTD XHTML 1.0 Strict//EN\&quot; \&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\&quot;&gt;&quot;</pre>
 </blockquote>
 
 <p><br>[Symbol]
@@ -717,17 +732,17 @@ Here are some simple examples:
 <pre>
 * (defmethod convert-tag-to-string-list ((tag (eql :red)) attr-list body body-fn)
     (declare (ignore attr-list))
-    (nconc (cons "&lt;font color='red'&gt;" (funcall body-fn body)) (list "&lt;/font&gt;"))) 
-; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN): 
-; Compiling Top-Level Form: 
+    (nconc (cons "&lt;font color='red'&gt;" (funcall body-fn body)) (list "&lt;/font&gt;")))
+; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN):
+; Compiling Top-Level Form:
 
 #&lt;STANDARD-METHOD CONVERT-TAG-TO-STRING-LIST ((EQL :RED) T T T) {582B268D}&gt;
 * (with-html-output (*standard-output*)
-    (:red (:b "Bold and red")) 
+    (:red (:b "Bold and red"))
     (values))
 &lt;font color='red'&gt;&lt;b&gt;Bold and red&lt;/b&gt;&lt;/font&gt;
 * (show-html-expansion (s)
-    (:red :style "spiffy" (if (foo) (htm "Attributes are ignored")))) 
+    (:red :style "spiffy" (if (foo) (htm "Attributes are ignored"))))
 
 (LET ((S S))
   (PROGN
@@ -746,24 +761,24 @@ Here are some simple examples:
                                     collect "&lt;td&gt;"
                                     when (constantp col)
                                       collect (format nil "~A" col)
-                                    else 
+                                    else
                                       collect col
                                     collect "&lt;/td&gt;")
                         collect "&lt;/tr&gt;")
                   (list "&lt;/table&gt;")))
-          (t 
+          (t
             <font color=orange>;; you could as well invoke CALL-NEXT-METHOD here, of course</font>
             (nconc (cons "&lt;table "
                          (<a class=noborder href="#convert-attributes">convert-attributes</a> attr-list))
                    (list "&gt;")
                    (funcall body-fn body)
                    (list "&lt;/table&gt;")))))
-; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN): 
-; Compiling Top-Level Form: 
+; Compiling LAMBDA (PCL::.PV-CELL. PCL::.NEXT-METHOD-CALL. TAG ATTR-LIST BODY BODY-FN):
+; Compiling Top-Level Form:
 
 #&lt;STANDARD-METHOD CONVERT-TAG-TO-STRING-LIST ((EQL :TABLE) T T T) {58AFB7CD}&gt;
 * (with-html-output (*standard-output*)
-    (:table :border 0 (:tr (:td "1") (:td "2")) (:tr (:td "3") (:td "4")))) 
+    (:table :border 0 (:tr (:td "1") (:td "2")) (:tr (:td "3") (:td "4"))))
 &lt;table  border='0'&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 "&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
 * (show-html-expansion (s)
