@@ -144,7 +144,11 @@ a list of strings or Lisp forms."))
   "The standard method which is not specialized.  The idea is that you
 can use EQL specializers on the first argument."
   (declare (optimize speed space))
-  (let ((tag (if *downcase-tokens-p* (string-downcase tag) (string tag))))
+  (let ((tag (if *downcase-tokens-p* (string-downcase tag) (string tag)))
+        (body-indent
+          ;; increase *INDENT* by 2 for body -- or disable it
+          (when (and *indent* (not (member tag *html-no-indent-tags* :test #'string-equal)))
+            (+ 2 *indent*))))
     (nconc
      (if *indent*
        ;; indent by *INDENT* spaces
@@ -157,13 +161,10 @@ can use EQL specializers on the first argument."
      (if body
        (append
         (list ">")
-        ;; now hand over the tag's body to TREE-TO-TEMPLATE, increase
-        ;; *INDENT* by 2 if necessary
-        (if *indent*
-          (let ((*indent* (+ 2 *indent*)))
-            (funcall body-fn body))
+        ;; now hand over the tag's body to TREE-TO-TEMPLATE
+        (let ((*indent* body-indent))
           (funcall body-fn body))
-        (if *indent*
+        (when body-indent
           ;; indentation
           (list +newline+ (n-spaces *indent*)))
         ;; closing tag
