@@ -105,8 +105,8 @@
 
 ;;; 11
 (string= (let ((*prologue* "<!DOCTYPE math SYSTEM \"http://www.w3.org/Math/DTD/mathml1/mathml.dtd\">"))
-           (with-html-output-to-string (out nil :prologue t)
-             (:apply (:factorial) (:cn "3"))))
+           (eval `(with-html-output-to-string (out nil :prologue t)
+                    (:apply (:factorial) (:cn "3")))))
          "<!DOCTYPE math SYSTEM \"http://www.w3.org/Math/DTD/mathml1/mathml.dtd\">
 <apply><factorial></factorial><cn>3</cn></apply>")
 
@@ -231,16 +231,16 @@
          "<p></p>")
 
 ;;; 19
-(string= (let ((*html-empty-tag-aware-p* nil))
-           (with-html-output-to-string (out)
-             (:p)))
+(string= (let ((cl-who:*html-empty-tag-aware-p* nil))
+           (eval `(with-html-output-to-string (out)
+                    (:p))))
          "<p />")
 
 ;;; 20
 (string= (let ((*html-empty-tag-aware-p* t)
                (*html-empty-tags* '(:p)))
-           (with-html-output-to-string (out)
-             (:p)))
+           (eval `(with-html-output-to-string (out)
+                    (:p))))
          "<p />")
 
 ;;; 21
@@ -250,8 +250,8 @@
 
 ;;; 22
 (string= (let ((*downcase-tokens-p* nil))
-           (with-html-output-to-string (out)
-             (:|Foo| :bar 42)))
+           (eval `(with-html-output-to-string (out)
+                    (:|Foo| :bar 42))))
          "<Foo BAR='42'></Foo>")
 
 ;;; 23
@@ -261,3 +261,34 @@
              (progn (htm (:br))))
            (get-output-stream-string stream))
          "<br />")
+
+;;; 24
+(string= (with-html-output-to-string (out)
+           (:div (:pre "Foo")))
+         "<div><pre>Foo</pre></div>")
+
+;;; 25
+(string= (with-html-output-to-string (out nil :indent t)
+           (:div (:pre "Foo")))
+         "
+<div>
+  <pre>Foo</pre>
+</div>")
+
+;;; 26
+(string= (with-html-output-to-string (out nil :indent t)
+           (:div (:p "Bar")))
+         "
+<div>
+  <p>Bar
+  </p>
+</div>")
+
+;;; 27
+(string= (let ((*html-no-indent-tags* (cons :p *html-no-indent-tags*)))
+           (eval `(with-html-output-to-string (out nil :indent t)
+                    (:div (:p "Bar")))))
+         "
+<div>
+  <p>Bar</p>
+</div>")
