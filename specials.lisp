@@ -65,8 +65,9 @@ needs to output case sensitive XML.")
   "End of an empty tag.  Default is XML style.")
 
 (defvar *html-no-indent-tags*
-  '(:pre)
-  "List of HTML tags that disable indentation inside them. Default list containts only :PRE.")
+  '(:pre :textarea)
+  "The list of HTML tags that should disable indentation inside them. The initial
+value is a list containing only :PRE and :TEXTAREA.")
 
 (defvar *html-empty-tags*
   '(:area
