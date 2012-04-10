@@ -90,10 +90,10 @@ CL-WHO is for example used by <a href="http://clutu.com/">clutu</a> and <a href=
     <li><a href="#with-html-output"><code>with-html-output</code></a>
     <li><a href="#with-html-output-to-string"><code>with-html-output-to-string</code></a>
     <li><a href="#*attribute-quote-char*"><code>*attribute-quote-char*</code></a>
-    <li><a href="#*prologue*"><code>*prologue*</code></a>
+    <li><a href="#*downcase-tokens-p*"><code>*downcase-tokens-p*</code></a>
     <li><a href="#*html-empty-tag-aware-p*"><code>*html-empty-tag-aware-p*</code></a>
     <li><a href="#*html-empty-tags*"><code>*html-empty-tags*</code></a>
-    <li><a href="#*downcase-tokens-p*"><code>*downcase-tokens-p*</code></a>
+    <li><a href="#*prologue*"><code>*prologue*</code></a>
     <li><a href="#esc"><code>esc</code></a>
     <li><a href="#fmt"><code>fmt</code></a>
     <li><a href="#htm"><code>htm</code></a>
@@ -527,12 +527,12 @@ This character is used as the quote character when building attributes. Defaults
 </blockquote>
 
 <p><br>[Special variable]
-<br><a class=none name="*prologue*"><b>*prologue*</b></a>
+<br><a class=none name="*downcase-tokens-p*"><b>*downcase-tokens-p*</b></a>
 
 <blockquote><br>
-This is the prologue string which will be printed if the <code><i>prologue</i></code> keyword argument to <a href="#with-html-output"><code>WITH-HTML-OUTPUT</code></a> is <code>T</code>. Gets changed when you set <a href="#html-mode"><code>HTML-MODE</code></a>. Its initial value is
-
-<pre>&quot;&lt;!DOCTYPE html PUBLIC \&quot;-//W3C//DTD XHTML 1.0 Strict//EN\&quot; \&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\&quot;&gt;&quot;</pre>
+If the value of this variable is <code>NIL</code>, keyword symbols representing a tag or attribute name will not be
+automatically converted to lowercase.  This is useful when one needs to
+output case sensitive XML.  The default is <code>T</code>.
 </blockquote>
 
 <p><br>[Special variable]
@@ -560,12 +560,12 @@ The initial value is the list
 </blockquote>
 
 <p><br>[Special variable]
-<br><a class=none name="*downcase-tokens-p*"><b>*downcase-tokens-p*</b></a>
+<br><a class=none name="*prologue*"><b>*prologue*</b></a>
 
 <blockquote><br>
-If the value of this variable is <code>NIL</code>, keyword symbols representing a tag or attribute name will not be
-automatically converted to lowercase.  This is useful when one needs to
-output case sensitive XML.  The default is <code>T</code>.
+This is the prologue string which will be printed if the <code><i>prologue</i></code> keyword argument to <a href="#with-html-output"><code>WITH-HTML-OUTPUT</code></a> is <code>T</code>. Gets changed when you set <a href="#html-mode"><code>HTML-MODE</code></a>. Its initial value is
+
+<pre>&quot;&lt;!DOCTYPE html PUBLIC \&quot;-//W3C//DTD XHTML 1.0 Strict//EN\&quot; \&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\&quot;&gt;&quot;</pre>
 </blockquote>
 
 <p><br>[Symbol]
