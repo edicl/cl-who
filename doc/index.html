@@ -93,6 +93,7 @@ CL-WHO is for example used by <a href="http://clutu.com/">clutu</a> and <a href=
     <li><a href="#*downcase-tokens-p*"><code>*downcase-tokens-p*</code></a>
     <li><a href="#*html-empty-tag-aware-p*"><code>*html-empty-tag-aware-p*</code></a>
     <li><a href="#*html-empty-tags*"><code>*html-empty-tags*</code></a>
+    <li><a href="#*html-no-indent-tags*"><code>*html-no-indent-tags*</code></a>
     <li><a href="#*prologue*"><code>*prologue*</code></a>
     <li><a href="#esc"><code>esc</code></a>
     <li><a href="#fmt"><code>fmt</code></a>
@@ -460,21 +461,26 @@ time. <code><i>prologue</i></code> should be a string
 is guaranteed to be the first thing sent to the stream from within the
 body of this macro. If <code><i>prologue</i></code> is <code>T</code>
 the prologue string is the value
-of <a href="#*prologue*"><code>*PROLOGUE*</code></a>. CL-WHO will
-usually try not to insert any unnecessary whitespace in order to save
-bandwidth. However, if <code><i>indent</i></code> is <em>true</em>
-line breaks will be inserted and nested tags will be indented
-properly. The value of <code><i>indent</i></code> - if it is an
-integer - will be taken as the initial indentation. If it is not an
-integer it is assumed to mean <code>0</code>. (But note that
-indentation might change the semantics of the generated HTML.  This is
-for example the case for the <code>PRE</code>
-and <code>TEXTAREA</code> tags, and in certain situations additional
-whitespace might also change the layout of tables.)
+of <a href="#*prologue*"><code>*PROLOGUE*</code></a>.
+<p>
+CL-WHO will usually try not to insert any unnecessary whitespace in
+order to save bandwidth. However, if <code><i>indent</i></code>
+is <em>true</em> line breaks will be inserted and nested tags will be
+indented properly. The value of <code><i>indent</i></code> - if it is
+an integer - will be taken as the initial indentation. If it is not an
+integer it is assumed to mean <code>0</code>. Value
+of <a href="#*html-no-indent-tags*"><code>*HTML-NO-INDENT-TAGS*</code></a>
+controls which tag-contents are excempt from indentation: by default
+contents of <code>PRE</code> and <code>TEXTAREA</code> tags are not
+indented to avoid spurious layout changes. (Note: in certain
+situations additional whitespace may change the layout of tables.)
+<p>
 The <code><i>results</i></code> are the values returned by
 the <code><i>forms</i></code>.
 <p>
-Note that the keyword arguments <code><i>prologue</i></code> and <code><i>indent</i></code> are used at macro expansion time.
+Note that the keyword arguments <code><i>prologue</i></code>
+and <code><i>indent</i></code>, and the associated variables are
+used <em>at macro expansion time</em>.
 
 <pre>
 * (with-html-output (*standard-output* nil :prologue t)
@@ -557,6 +563,15 @@ The initial value is the list
  :frame :hr :img :input :isindex :keygen :left :limittext :link :meta :nextid
  :of :over :param :range :right :source :spacer :spot :tab :track :wbr)
 </pre>
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*html-no-indent-tags*"><b>*html-no-indent-tags*</b></a>
+
+<blockquote><br>
+The list of HTML tags that should disable indentation inside them even
+when indentation is requested. The initial value is a list containing
+only <code>:pre</code> and <code>:texarea</code>.
 </blockquote>
 
 <p><br>[Special variable]
