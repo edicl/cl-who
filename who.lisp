@@ -287,7 +287,7 @@ supplied."
                   (with-unique-names (result)
                     `(let ((,result ,thing))
                        (when ,result (princ ,result ,',var))))))
-       ,@(apply 'tree-to-commands body var rest))))
+         (,@(apply 'tree-to-commands body var rest)))))
 
 (defmacro with-html-output-to-string ((var &optional string-form
                                            &key (element-type #-:lispworks ''character
