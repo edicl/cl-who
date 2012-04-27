@@ -273,7 +273,9 @@ into Lisp code to write the corresponding HTML as strings to VAR -
 which should either hold a stream or which'll be bound to STREAM if
 supplied."
   (declare (ignore prologue))
+  (multiple-value-bind (declarations forms) (extract-declarations body)
   `(let ((,var ,(or stream var)))
+       ,@declarations
      (macrolet ((htm (&body body)
                   `(with-html-output (,',var nil :prologue nil :indent ,,indent)
                      ,@body))
@@ -287,7 +289,7 @@ supplied."
                   (with-unique-names (result)
                     `(let ((,result ,thing))
                        (when ,result (princ ,result ,',var))))))
-         (,@(apply 'tree-to-commands body var rest)))))
+         ,@(apply 'tree-to-commands forms var rest)))))
 
 (defmacro with-html-output-to-string ((var &optional string-form
                                            &key (element-type #-:lispworks ''character
@@ -297,11 +299,13 @@ supplied."
                                       &body body)
   "Transform the enclosed BODY consisting of HTML as s-expressions
 into Lisp code which creates the corresponding HTML as a string."
+  (multiple-value-bind (declarations forms) (extract-declarations body)
   `(with-output-to-string (,var ,string-form
                                 #-(or :ecl :cmu :sbcl) :element-type
                                 #-(or :ecl :cmu :sbcl) ,element-type)
+     ,@declarations
     (with-html-output (,var nil :prologue ,prologue :indent ,indent)
-      ,@body)))
+      ,@forms))))
 
 ;; stuff for Nikodemus Siivola's HYPERDOC
 ;; see <http://common-lisp.net/project/hyperdoc/>
