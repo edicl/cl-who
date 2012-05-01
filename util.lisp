@@ -228,15 +228,13 @@ determine whether CHAR must be escaped."
 character set."
   (escape-string string :test #'non-7bit-ascii-escape-char-p))
 
-(defun extract-declarations (body)
+(defun extract-declarations (forms)
   "Given a FORM, the declarations - if any - will be extracted
    from the head of the FORM, and will return two values the declarations,
    and the remaining of FORM"
-  (loop for sexp = (first body) then (first forms)
-        for forms = (rest body) then (rest forms)
-        for declarations = nil
-        if (not (eq (first sexp) 'cl:declare))
-        do (return (values declarations
-                           (append (if (null sexp) sexp (list sexp)) forms)))
-        else
-        do (push sexp declarations)))
+  (loop with declarations
+        for forms on forms
+        for form = (first forms)
+        while (eql (first form) 'cl:declare)
+        do (push form declarations)
+        finally (return (values (nreverse declarations) forms))))
