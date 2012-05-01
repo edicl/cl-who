@@ -1,12 +1,18 @@
+2012-05-01
+Make declarations work as advertised (Ala'a Mohammad Alawi)
+
 Version 1.0.0
 2010-0x-xx
 Refactored internals and made STR etc. local macros
 Added test suite
-	todo: repla s-h-texp with walk in docs
+	todo: replace s-h-texp with walk in docs
 Removed deprecated ESCAPE-STRING-ISO-8859 function
 Removed SHOW-HTML-EXPANSION
 Bugfixes (thanks to Slawek Zak)
 Added support for HTML5 (Chaitanya Gupta)
+Test portability fixes and improvements (Nikodemus Siivola)
+New *HTML-NO-INDENT-TAGS* variable to selectively suppress indentation (Nikodemus Siivola)
+Lock package on SBCL (Nikodemus Siivola)
 
 Version 0.11.1
 2008-03-28
