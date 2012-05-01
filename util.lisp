@@ -229,12 +229,14 @@ character set."
   (escape-string string :test #'non-7bit-ascii-escape-char-p))
 
 (defun extract-declarations (body)
-  "Given a FORM, the declarations - if any - will be exctracted
+  "Given a FORM, the declarations - if any - will be extracted
    from the head of the FORM, and will return two values the declarations,
    and the remaining of FORM"
-  (do ((sexp (first body) (first forms))
-       (forms (rest body) (rest forms))
-       (declarations nil))
-      ((not (eq (first sexp) 'cl:declare))
-       (values declarations (append (if (null sexp) sexp (list sexp)) forms)))
-    (push sexp declarations)))
+  (loop for sexp = (first body) then (first forms)
+        for forms = (rest body) then (rest forms)
+        for declarations = nil
+        if (not (eq (first sexp) 'cl:declare))
+        do (return (values declarations
+                           (append (if (null sexp) sexp (list sexp)) forms)))
+        else
+        do (push sexp declarations)))
