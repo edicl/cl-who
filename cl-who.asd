@@ -29,7 +29,7 @@
 
 (asdf:defsystem :cl-who
   :description "(X)HTML generation macros"
-  :version "1.1.0"
+  :version "1.1.1"
   :serial t
   :components ((:file "packages")
                (:file "specials")
