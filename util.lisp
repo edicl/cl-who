@@ -235,6 +235,7 @@ character set."
   (loop with declarations
         for forms on forms
         for form = (first forms)
-        while (eql (first form) 'cl:declare)
+        while (and (consp form)
+                   (eql (first form) 'cl:declare))
         do (push form declarations)
         finally (return (values (nreverse declarations) forms))))

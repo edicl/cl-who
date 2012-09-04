@@ -189,7 +189,11 @@ flattened list of strings. Utility function used by TREE-TO-COMMANDS-AUX."
         nconc (process-tag element #'tree-to-template)
         ;; list - insert as sexp
         else if (consp element)
-        collect `(let ((*indent* ,*indent*)) ,element)
+        collect `(let ((*indent* ,*indent*))
+                   nil ;; If the element is (declare ...) it
+                       ;; won't be interpreted as a declaration and an
+                       ;; appropriate error could be signaled
+                   ,element)
         ;; something else - insert verbatim
         else
         collect element))
