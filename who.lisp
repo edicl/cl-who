@@ -296,7 +296,8 @@ supplied."
          ,@(apply 'tree-to-commands forms var rest)))))
 
 (defmacro with-html-output-to-string ((var &optional string-form
-                                           &key (element-type #-:lispworks ''character
+                                           &key #-(or :ecl :cmu :sbcl)
+                                                (element-type #-:lispworks ''character
                                                               #+:lispworks ''lw:simple-char)
                                                 prologue
                                                 indent)
