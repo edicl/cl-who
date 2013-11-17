@@ -1,3 +1,7 @@
+Version 1.1.3
+2013-11-16
+Add type check to guard against invalid stream argument (Stas Boukarev)
+
 Version 1.1.2
 2013-11-16
 Missing comma in macro expansion (Jeff Cunningham)
