@@ -117,7 +117,7 @@ forms."
                                 ((eq ,=var= t)
                                  ,(case *html-mode*
                                     (:sgml
-                                     `(fmt " ~A" attr))
+                                     `(fmt " ~A" ,attr))
                                     ;; otherwise default to :xml mode
                                     (t
                                      `(fmt " ~A=~C~A~C"
