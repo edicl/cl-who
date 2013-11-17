@@ -1,3 +1,8 @@
+Version 1.1.2
+2013-11-16
+Missing comma in macro expansion (Jeff Cunningham)
+Fix style-warning
+
 Version 1.1.1
 2012-09-04
 Bug fixes for broken declaration processing (Stas Boukarev)
