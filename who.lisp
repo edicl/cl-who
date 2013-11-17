@@ -280,6 +280,7 @@ supplied."
   (multiple-value-bind (declarations forms) (extract-declarations body)
   `(let ((,var ,(or stream var)))
        ,@declarations
+     (check-type ,var stream)
      (macrolet ((htm (&body body)
                   `(with-html-output (,',var nil :prologue nil :indent ,,indent)
                      ,@body))
