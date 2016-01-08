@@ -93,7 +93,9 @@ forms."
                      (string orig-attr))
         unless (null val) ;; no attribute at all if VAL is NIL
           if (constantp val)
-            if (and (eq *html-mode* :sgml) (eq val t)) ; special case for SGML
+            if (and (or (eq *html-mode* :sgml) ; special case for SGML or HTML5
+                        (eq *html-mode* :html5))
+                    (eq val t))
               nconc (list " " attr)
             else
               nconc (list " "
@@ -116,7 +118,7 @@ forms."
                           (cond ((null ,=var=))
                                 ((eq ,=var= t)
                                  ,(case *html-mode*
-                                    (:sgml
+                                    ((:sgml :html5)
                                      `(fmt " ~A" ,attr))
                                     ;; otherwise default to :xml mode
                                     (t
