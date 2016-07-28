@@ -53,6 +53,14 @@ indentation dynamically.")
 (defvar *html-mode* :xml
   ":SGML for \(SGML-)HTML, :XML \(default) for XHTML, :HTML5 for HTML5.")
 
+(defvar *empty-attribute-syntax* nil
+  "Set this to t to enable attribute minimization (also called
+'boolean attributes', or 'empty attribute syntax' according to the w3
+html standard). In XHTML attribute minimization is forbidden, and all
+attributes must have a value. Thus in XHTML boolean attributes must be
+defined as <input disabled='disabled' />. In HTML5 boolean attributes
+can be defined as <input disabled>")
+
 (defvar *downcase-tokens-p* t
   "If NIL, a keyword symbol representing a tag or attribute name will
 not be automatically converted to lowercase.  This is useful when one

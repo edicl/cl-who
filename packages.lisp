@@ -35,6 +35,7 @@
   #+:sbcl (:shadow :defconstant)
   #+:sb-package-locks (:lock t)
   (:export :*attribute-quote-char*
+           :*empty-attribute-syntax*
            :*escape-char-p*
            :*prologue*
            :*downcase-tokens-p*

@@ -40,14 +40,17 @@ XHTML and :HTML5 for HTML5 (HTML syntax)."
   (ecase mode
     ((:sgml)
      (setf *html-mode* :sgml
+           *empty-attribute-syntax* t
            *empty-tag-end* ">"
            *prologue* "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"))
     ((:xml)
      (setf *html-mode* :xml
+           *empty-attribute-syntax* nil
            *empty-tag-end* " />"
            *prologue* "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"))
     ((:html5)
      (setf *html-mode* :html5
+           *empty-attribute-syntax* t
            *empty-tag-end* ">"
            *prologue* "<!DOCTYPE html>"))))
 
@@ -93,7 +96,7 @@ forms."
                      (string orig-attr))
         unless (null val) ;; no attribute at all if VAL is NIL
           if (constantp val)
-            if (and (eq *html-mode* :sgml) (eq val t)) ; special case for SGML
+            if (and *empty-attribute-syntax* (eq val t)) ; special case for SGML and HTML5
               nconc (list " " attr)
             else
               nconc (list " "
@@ -115,16 +118,13 @@ forms."
             nconc (list `(let ((,=var= ,val))
                           (cond ((null ,=var=))
                                 ((eq ,=var= t)
-                                 ,(case *html-mode*
-                                    (:sgml
-                                     `(fmt " ~A" ,attr))
-                                    ;; otherwise default to :xml mode
-                                    (t
-                                     `(fmt " ~A=~C~A~C"
-                                           ,attr
-                                           *attribute-quote-char*
-                                           ,attr
-                                           *attribute-quote-char*))))
+                                 ,(if *empty-attribute-syntax*
+                                      `(fmt " ~A" ,attr)
+                                      `(fmt " ~A=~C~A~C"
+                                            ,attr
+                                            *attribute-quote-char*
+                                            ,attr
+                                            *attribute-quote-char*)))
                                 (t
                                  (fmt " ~A=~C~A~C"
                                       ,attr
