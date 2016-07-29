@@ -327,9 +327,11 @@ is transformed into an (X)HTML <b>tag</b> of the same (usually <href="#*downcase
 
   <table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(:td :nowrap t) <font color="red">=&gt;</font> (write-string &quot;&lt;td nowrap='nowrap' /&gt;&quot; s)</pre></td></tr></table>
 
-  With <a href="#html-mode"><code>HTML-MODE</code></a> set to <code>:SGML</code>:
+  With <a href="#html-mode"><code>HTML-MODE</code></a> set to <code>:SGML</code> or <code>:HTML5</code>:
 
   <table border=0 cellpadding=2 cellspacing=3><tr><td><pre>(:td :nowrap t) <font color="red">=&gt;</font> (write-string &quot;&lt;td nowrap&gt;&quot; s)</pre></td></tr></table>
+
+  Attribute minimization is controlled by <a href="#*empty-attribute-syntax*"><code>*EMPTY-ATTRIBUTE-SYNTAX*</code></a><br>
 
          <li>If it is <code>NIL</code> the attribute will be left out completely.
 
@@ -573,6 +575,19 @@ This is the prologue string which will be printed if the <code><i>prologue</i></
 <pre>&quot;&lt;!DOCTYPE html PUBLIC \&quot;-//W3C//DTD XHTML 1.0 Strict//EN\&quot; \&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\&quot;&gt;&quot;</pre>
 </blockquote>
 
+<p><br>[Special variable]
+    <br><a class=none name="*empty-attribute-syntax*"><b>*empty-attribute-syntax*</b></a>
+
+    <blockquote><br>
+        This controls the attribute minimization. (also called 'boolean attributes', or 'empty attribute syntax' according to the w3 html standard). Set value to <code>T</code> to enable attribute minimization.
+        <p>In XHTML attribute minimization is forbidden, and all attributes must have a value. Thus in XHTML boolean attributes must be defined as
+        <pre> &lt;input disabled='disabled' /&gt;</pre>
+        In HTML5 and SGML HTML boolean attributes can be defined as
+        <pre>&lt;input disabled&gt;</pre>
+        Gets changed when you set <a href="#html-mode"><code>HTML-MODE</code></a>. Its initial value is <code>NIL</code>
+        </p>
+    </blockquote>
+
 <p><br>[Symbol]
 <br><a class=none name="esc"><b>esc</b></a>
 <br>[Symbol]
@@ -594,7 +609,7 @@ The function <code>HTML-MODE</code> returns the current mode for generating HTML
 <p>
 Setting it to SGML HTML sets the <a href="#*prologue*"><code>*prologue*</code></a> to the doctype string for HTML 4.01 transitional:
 <pre>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</pre>
-Code generation in SGML HTML is slightly different from XHTML - there's no need to end empty elements with <code>/&gt;</code> and empty attributes are allowed.
+Code generation in HTML5 and SGML HTML is slightly different from XHTML - there's no need to end empty elements with <code>/&gt;</code> and empty attributes are allowed.
 <p>
 Setting it to HTML5 sets the <a href="#*prologue*"><code>*prologue*</code></a> to the following doctype string:
 <pre>&lt;!DOCTYPE html&gt;</pre>
