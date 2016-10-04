@@ -510,7 +510,7 @@ This is just a thin wrapper around <a href="#with-html-output"><code>WITH-HTML-O
                                       &amp;body body)
   &quot;Transform the enclosed BODY consisting of HTML as s-expressions
 into Lisp code which creates the corresponding HTML as a string.&quot;
-  `(with-output-to-string (,var ,string-form :elementy-type ,element-type)
+  `(with-output-to-string (,var ,string-form :element-type ,element-type)
     (with-html-output (,var nil :prologue ,prologue :indent ,indent)
       ,@body)))
 </pre>
