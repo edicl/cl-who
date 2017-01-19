@@ -31,6 +31,7 @@
   :description "(X)HTML generation macros"
   :version "1.1.4"
   :serial t
+  :license "BSD"
   :components ((:file "packages")
                (:file "specials")
                (:file "util")
