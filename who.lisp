@@ -59,30 +59,33 @@ XHTML and :HTML5 for HTML5 (HTML syntax)."
   "Returns a string list corresponding to the `HTML' \(in CL-WHO
 syntax) in SEXP.  Uses the generic function CONVERT-TO-STRING-LIST
 internally.  Utility function used by TREE-TO-TEMPLATE."
-  (let (tag attr-list body)
-    (cond
-      ((keywordp sexp)
-       (setq tag sexp))
-      ((atom (first sexp))
-       (setq tag (first sexp))
-       ;; collect attribute/value pairs into ATTR-LIST and tag body (if
-       ;; any) into BODY
-       (loop for rest on (cdr sexp) by #'cddr
-             if (keywordp (first rest))
-               collect (cons (first rest) (second rest)) into attr
-             else
-               do (progn (setq attr-list attr)
-                         (setq body rest)
-                         (return))
-             finally (setq attr-list attr)))
-      ((listp (first sexp))
-       (setq tag (first (first sexp)))
-       (loop for rest on (cdr (first sexp)) by #'cddr
-             if (keywordp (first rest))
-               collect (cons (first rest) (second rest)) into attr
-             finally (setq attr-list attr))
-       (setq body (cdr sexp))))
-    (convert-tag-to-string-list tag attr-list body body-fn)))
+  (flet ((leaf-p (s)
+	   (loop for e in (rest s)
+		 never (and (listp e) (keywordp (first e))))))
+    (let (tag attr-list body)
+      (cond
+	((keywordp sexp)
+	 (setq tag sexp))
+	((atom (first sexp))
+	 (setq tag (first sexp))
+	 ;; collect attribute/value pairs into ATTR-LIST and tag body (if
+	 ;; any) into BODY
+	 (loop for rest on (cdr sexp) by #'cddr
+               if (keywordp (first rest))
+		 collect (cons (first rest) (second rest)) into attr
+               else
+		 do (progn (setq attr-list attr)
+                           (setq body rest)
+                           (return))
+               finally (setq attr-list attr)))
+	((listp (first sexp))
+	 (setq tag (first (first sexp)))
+	 (loop for rest on (cdr (first sexp)) by #'cddr
+               if (keywordp (first rest))
+		 collect (cons (first rest) (second rest)) into attr
+               finally (setq attr-list attr))
+	 (setq body (cdr sexp))))
+      (convert-tag-to-string-list tag attr-list body body-fn (leaf-p sexp)))))
 
 (defun convert-attributes (attr-list)
   "Helper function for CONVERT-TAG-TO-STRING-LIST which converts the
@@ -132,15 +135,16 @@ forms."
                                       ,=var=
                                       *attribute-quote-char*)))))))
 
-(defgeneric convert-tag-to-string-list (tag attr-list body body-fn)
+(defgeneric convert-tag-to-string-list (tag attr-list body body-fn leaf-p)
   (:documentation "Used by PROCESS-TAG to convert `HTML' into a list
 of strings.  TAG is a keyword symbol naming the outer tag, ATTR-LIST
 is an alist of its attributes \(the car is the attribute's name as a
 keyword, the cdr is its value), BODY is the tag's body, and BODY-FN is
 a function which should be applied to BODY.  The function must return
-a list of strings or Lisp forms."))
+a list of strings or Lisp forms. LEAF-P is t when the TAG is a leaf
+and is not indented."))
 
-(defmethod convert-tag-to-string-list (tag attr-list body body-fn)
+(defmethod convert-tag-to-string-list (tag attr-list body body-fn leaf-p)
   "The standard method which is not specialized.  The idea is that you
 can use EQL specializers on the first argument."
   (declare (optimize speed space))
@@ -164,7 +168,7 @@ can use EQL specializers on the first argument."
         ;; now hand over the tag's body to TREE-TO-TEMPLATE
         (let ((*indent* body-indent))
           (funcall body-fn body))
-        (when body-indent
+        (when (and body-indent (not leaf-p))
           ;; indentation
           (list +newline+ (n-spaces *indent*)))
         ;; closing tag
