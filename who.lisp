@@ -59,9 +59,10 @@ XHTML and :HTML5 for HTML5 (HTML syntax)."
   "Returns a string list corresponding to the `HTML' \(in CL-WHO
 syntax) in SEXP.  Uses the generic function CONVERT-TO-STRING-LIST
 internally.  Utility function used by TREE-TO-TEMPLATE."
-  (flet ((leaf-p (s)
-	   (loop for e in (rest s)
-		 never (and (listp e) (keywordp (first e))))))
+  (flet ((short-leaf-p (s)
+	   (and (loop for e in (rest s) never (and (listp e) (keywordp (first e))))
+		(< (loop for e in (rest s) when (stringp e) sum (length e))
+		   *short-leaf-content-length*))))
     (let (tag attr-list body)
       (cond
 	((keywordp sexp)
@@ -85,7 +86,7 @@ internally.  Utility function used by TREE-TO-TEMPLATE."
 		 collect (cons (first rest) (second rest)) into attr
                finally (setq attr-list attr))
 	 (setq body (cdr sexp))))
-      (convert-tag-to-string-list tag attr-list body body-fn (leaf-p sexp)))))
+      (convert-tag-to-string-list tag attr-list body body-fn (short-leaf-p sexp)))))
 
 (defun convert-attributes (attr-list)
   "Helper function for CONVERT-TAG-TO-STRING-LIST which converts the
@@ -141,10 +142,11 @@ of strings.  TAG is a keyword symbol naming the outer tag, ATTR-LIST
 is an alist of its attributes \(the car is the attribute's name as a
 keyword, the cdr is its value), BODY is the tag's body, and BODY-FN is
 a function which should be applied to BODY.  The function must return
-a list of strings or Lisp forms. LEAF-P is t when the TAG is a leaf
-and is not indented."))
+a list of strings or Lisp forms. SHORT-LEAF-P is t when the TAG is a
+leaf and its content is shorter than *SHORT-LEAF-CONTENT-LENGTH* then
+it is not indented."))
 
-(defmethod convert-tag-to-string-list (tag attr-list body body-fn leaf-p)
+(defmethod convert-tag-to-string-list (tag attr-list body body-fn short-leaf-p)
   "The standard method which is not specialized.  The idea is that you
 can use EQL specializers on the first argument."
   (declare (optimize speed space))
@@ -168,7 +170,7 @@ can use EQL specializers on the first argument."
         ;; now hand over the tag's body to TREE-TO-TEMPLATE
         (let ((*indent* body-indent))
           (funcall body-fn body))
-        (when (and body-indent (not leaf-p))
+        (when (and body-indent (not short-leaf-p))
           ;; indentation
           (list +newline+ (n-spaces *indent*)))
         ;; closing tag
