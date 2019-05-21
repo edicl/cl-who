@@ -32,7 +32,7 @@
 (defpackage :cl-who
   (:use :cl)
   (:nicknames :who)
-  #+:sbcl (:shadow :defconstant)
+  #+(or :clasp :sbcl) (:shadow :defconstant)
   #+:sb-package-locks (:lock t)
   (:export :*attribute-quote-char*
            :*empty-attribute-syntax*
