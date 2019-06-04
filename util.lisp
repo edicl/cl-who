@@ -239,3 +239,12 @@ character set."
                    (eql (first form) 'cl:declare))
         do (push form declarations)
         finally (return (values (nreverse declarations) forms))))
+
+(defun %case-p (string fun)
+  (loop for c across string
+        always (char= (funcall fun c) c)))
+
+(defun same-case-p (string)
+  "Test if all characters of a string are in the same case."
+  (or (%case-p string #'char-downcase)
+      (%case-p string #'char-upcase)))
