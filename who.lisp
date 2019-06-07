@@ -91,11 +91,7 @@ forms."
   (declare (optimize speed space))
   (loop with =var= = (gensym)
         for (orig-attr . val) in attr-list
-        for str-attr = (string orig-attr)
-        for attr = (if (and *downcase-tokens-p*
-                            (same-case-p str-attr))
-                       (string-downcase str-attr)
-                       str-attr)
+        for attr = (maybe-downcase orig-attr)
         unless (null val) ;; no attribute at all if VAL is NIL
           if (constantp val)
             if (and *empty-attribute-syntax* (eq val t)) ; special case for SGML and HTML5
@@ -146,11 +142,7 @@ a list of strings or Lisp forms."))
   "The standard method which is not specialized.  The idea is that you
 can use EQL specializers on the first argument."
   (declare (optimize speed space))
-  (let* ((str-tag (string tag))
-         (tag (if (and *downcase-tokens-p*
-                       (same-case-p str-tag))
-                  (string-downcase tag)
-                  str-tag))
+  (let ((tag (maybe-downcase tag))
         (body-indent
           ;; increase *INDENT* by 2 for body -- or disable it
           (when (and *indent* (not (member tag *html-no-indent-tags* :test #'string-equal)))
