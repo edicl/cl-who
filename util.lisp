@@ -239,3 +239,14 @@ character set."
                    (eql (first form) 'cl:declare))
         do (push form declarations)
         finally (return (values (nreverse declarations) forms))))
+
+(defun same-case-p (string)
+  "Test if all characters of a string are in the same case."
+  (or (every #'(lambda (c) (or (not (alpha-char-p c)) (lower-case-p c))) string)
+      (every #'(lambda (c) (or (not (alpha-char-p c)) (upper-case-p c))) string)))
+
+(defun maybe-downcase (symbol)
+  (let ((string (string symbol)))
+    (if (and *downcase-tokens-p* (same-case-p string))
+        (string-downcase string)
+        string)))

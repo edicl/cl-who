@@ -63,8 +63,10 @@ can be defined as <input disabled>")
 
 (defvar *downcase-tokens-p* t
   "If NIL, a keyword symbol representing a tag or attribute name will
-not be automatically converted to lowercase.  This is useful when one
-needs to output case sensitive XML.")
+not be automatically converted to lowercase.  If T, the tag and
+attribute name will be converted to lowercase only if it is in the
+same case. This is useful when one needs to output case sensitive
+XML.")
 
 (defvar *attribute-quote-char* #\'
   "Quote character for attributes.")
