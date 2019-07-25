@@ -122,6 +122,9 @@ in *HTML-EMPTY-TAGS* as <tag/> \(XHTML mode) or <tag> \(SGML
 mode and HTML5 mode).  For all other tags, it will always generate
 <tag></tag>.")
 
+(defvar *short-leaf-content-length* 72
+  "Below this threshold leaf tags won't be indented.")
+
 (defconstant +newline+ (make-string 1 :initial-element #\Newline)
   "Used for indentation.")
 

@@ -42,6 +42,7 @@
            :*html-no-indent-tags*
            :*html-empty-tags*
            :*html-empty-tag-aware-p*
+           :*short-leaf-content-length*
            :conc
            :convert-attributes
            :convert-tag-to-string-list
