@@ -34,33 +34,33 @@
   (:nicknames :who)
   #+(or :clasp :sbcl) (:shadow :defconstant)
   #+:sb-package-locks (:lock t)
-  (:export :*attribute-quote-char*
-           :*empty-attribute-syntax*
-           :*escape-char-p*
-           :*prologue*
-           :*downcase-tokens-p*
-           :*html-no-indent-tags*
-           :*html-empty-tags*
-           :*html-empty-tag-aware-p*
-           :conc
-           :convert-attributes
-           :convert-tag-to-string-list
-           :esc
-           :escape-char
-           :escape-char-all
-           :escape-char-iso-8859-1
-           :escape-char-minimal
-           :escape-char-minimal-plus-quotes
-           :escape-string
-           :escape-string-all
-           :escape-string-iso-8859-1
-           :escape-string-minimal
-           :escape-string-minimal-plus-quotes
-           :fmt
-           :htm
-           :html-mode
-           :str
-           :with-html-output
-           :with-html-output-to-string))
+  (:export #:*attribute-quote-char*
+           #:*empty-attribute-syntax*
+           #:*escape-char-p*
+           #:*prologue*
+           #:*downcase-tokens-p*
+           #:*html-no-indent-tags*
+           #:*html-empty-tags*
+           #:*html-empty-tag-aware-p*
+           #:conc
+           #:convert-attributes
+           #:convert-tag-to-string-list
+           #:esc
+           #:escape-char
+           #:escape-char-all
+           #:escape-char-iso-8859-1
+           #:escape-char-minimal
+           #:escape-char-minimal-plus-quotes
+           #:escape-string
+           #:escape-string-all
+           #:escape-string-iso-8859-1
+           #:escape-string-minimal
+           #:escape-string-minimal-plus-quotes
+           #:fmt
+           #:htm
+           #:html-mode
+           #:str
+           #:with-html-output
+           #:with-html-output-to-string))
 
 (pushnew :cl-who *features*)

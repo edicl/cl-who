@@ -31,4 +31,4 @@
 
 (defpackage :cl-who-test
   (:use :cl :cl-who)
-  (:export :run-all-tests))
+  (:export #:run-all-tests))
