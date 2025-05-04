@@ -246,7 +246,7 @@
 ;;; 21
 (string= (with-html-output-to-string (out)
            (:|Foo| :bar 42))
-         "<foo bar='42'></foo>")
+         "<Foo bar='42'></Foo>")
 
 ;;; 22
 (string= (let ((*downcase-tokens-p* nil))

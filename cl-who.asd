@@ -35,15 +35,12 @@
   :components ((:file "packages")
                (:file "specials")
                (:file "util")
-               (:file "who")))
+               (:file "who"))
+  :perform (test-op (o c) (symbol-call :cl-who-test '#:run-all-tests)))
 
-(defsystem :cl-who-test
+(defsystem :cl-who/test
   :depends-on (:cl-who :flexi-streams)
   :components ((:module "test"
                         :serial t
                         :components ((:file "packages")
                                      (:file "tests")))))
-
-(defmethod perform ((o test-op) (c (eql (find-system :cl-who))))
-  (operate 'load-op :cl-who-test)
-  (funcall (intern (symbol-name :run-all-tests) (find-package :cl-who-test))))
