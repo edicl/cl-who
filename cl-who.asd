@@ -36,11 +36,12 @@
                (:file "specials")
                (:file "util")
                (:file "who"))
-  :perform (test-op (o c) (symbol-call :cl-who-test '#:run-all-tests)))
+  :in-order-to ((test-op (test-op :cl-who/test))))
 
 (defsystem :cl-who/test
   :depends-on (:cl-who :flexi-streams)
   :components ((:module "test"
-                        :serial t
-                        :components ((:file "packages")
-                                     (:file "tests")))))
+                :serial t
+                :components ((:file "packages")
+                             (:file "tests"))))
+  :perform (test-op (o c) (symbol-call :cl-who-test '#:run-all-tests)))
