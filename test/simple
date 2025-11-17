@@ -72,7 +72,7 @@
 (eq (array-element-type
      (with-html-output-to-string (out nil :element-type 'base-char)
        (:br)))
-    'base-char)
+    (upgraded-array-element-type 'base-char))
 
 ;;; 8
 (string= (let ((*attribute-quote-char* #\"))

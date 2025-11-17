@@ -295,21 +295,19 @@ supplied."
          ,@(apply 'tree-to-commands forms var rest)))))
 
 (defmacro with-html-output-to-string ((var &optional string-form
-                                           &key #-(or :ecl :cmu :sbcl)
-                                                (element-type #-:lispworks ''character
-                                                              #+:lispworks ''lw:simple-char)
-                                                prologue
-                                                indent)
+                                       &key
+                                         (element-type #-:lispworks ''character
+                                                       #+:lispworks ''lw:simple-char)
+                                         prologue
+                                         indent)
                                       &body body)
   "Transform the enclosed BODY consisting of HTML as s-expressions
 into Lisp code which creates the corresponding HTML as a string."
   (multiple-value-bind (declarations forms) (extract-declarations body)
-  `(with-output-to-string (,var ,string-form
-                                #-(or :ecl :cmu :sbcl) :element-type
-                                #-(or :ecl :cmu :sbcl) ,element-type)
-     ,@declarations
-    (with-html-output (,var nil :prologue ,prologue :indent ,indent)
-      ,@forms))))
+    `(with-output-to-string (,var ,string-form :element-type ,element-type)
+       ,@declarations
+       (with-html-output (,var nil :prologue ,prologue :indent ,indent)
+         ,@forms))))
 
 ;; stuff for Nikodemus Siivola's HYPERDOC
 ;; see <http://common-lisp.net/project/hyperdoc/>
